@@ -497,6 +497,44 @@ html body .app-launch{flex:none;white-space:nowrap;min-height:34px;padding:8px 1
 .work-facts span::before{content:'· '}
 html body .app-desc{padding-left:24px!important;padding-right:24px!important}
 .work-card .app-head h3{white-space:nowrap}
+
+/* ===== readability pass (2026-11-23) ===== */
+/* letter spacing: headings less squeezed, labels less spread */
+.kicker-left h2{letter-spacing:-.04em}
+.hero-title{letter-spacing:-.045em}
+.app-head h3,.project-card .project-top h3,.slide h3{letter-spacing:-.03em}
+.kicker-left small{letter-spacing:.08em}
+.slide-count{letter-spacing:.1em}
+.eyebrow{letter-spacing:.06em;font-size:12px}
+.app-head .meta small,.project-card .project-top small{letter-spacing:.03em;font-size:12px}
+.badge{font-size:12px}
+.slide p,.app-desc,.hero-copy{letter-spacing:-.005em}
+/* light mode: darker text tones (contrast 4.5+ ) */
+:root[data-theme="light"] .slide p,
+:root[data-theme="light"] .app-desc,
+:root[data-theme="light"] .hero-copy,
+:root[data-theme="light"] .project-card .project-top p{color:#43536a}
+:root[data-theme="light"] .kicker-left small,
+:root[data-theme="light"] .slide-count,
+:root[data-theme="light"] .eyebrow,
+:root[data-theme="light"] .app-head .meta small,
+:root[data-theme="light"] .project-card .project-top small,
+:root[data-theme="light"] .link-item small,
+:root[data-theme="light"] .when,
+:root[data-theme="light"] .k,
+:root[data-theme="light"] .stat span,
+:root[data-theme="light"] .how span:not(.since),
+:root[data-theme="light"] .project-detail,
+:root[data-theme="light"] .work-facts{color:#52637b}
+:root[data-theme="light"] .app-links .note,
+:root[data-theme="light"] .project-foot span{color:#56677f}
+:root[data-theme="light"] .app-launch:disabled{color:#56677f}
+/* mobile: more breathing room at the edges */
+@media (max-width:760px){
+  .slide{padding-left:20px;padding-right:20px}
+  .kicker-left h2{line-height:1.2}
+}
+:root[data-theme="light"] .hero-right > .panel:last-child div[style*="color:#b5bdc9"]{color:#4f6078!important}
 </style>
 </head>
 <body>
