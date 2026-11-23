@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<title>Five Powers 개발 QA 기록 — 이준희</title>
+<meta name="description" content="Unity로 만든 대전략 게임 Five Powers를 AI 자동 QA로 검증하고 판정한 기록. 빌드별 변화, 수정 사례, 최종 검증 수치."/>
+<meta property="og:title" content="Five Powers 개발 QA 기록 — 이준희"/>
+<meta property="og:description" content="AI 자동 QA로 검증하고 판정한 빌드별 기록"/>
+<meta property="og:image" content="https://syrano15.github.io/og-image.png"/>
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"/>
+<style>
+:root{--bg:#f4f7fb;--panel:#fff;--panel2:#f3f6f9;--line:#dce2e9;--text:#1e2733;--muted:#5f6f84;--blue:#2b6bc3;--blue2:#e4eefa;--good:#1f8a5b;--good2:#e3f4ec;--warn:#b26a00;--warn2:#fbf0dc;--ease:cubic-bezier(.23,1,.32,1)}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"Pretendard Variable",Pretendard,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;font-size:16px;line-height:1.7;letter-spacing:-.01em;word-break:keep-all;overflow-wrap:break-word;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding:0 max(24px,env(safe-area-inset-left))}
+.top{position:sticky;top:0;z-index:10;background:rgba(244,247,251,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:800}
+.brand i{width:32px;height:32px;border-radius:9px;background:#2e5991;color:#fff;display:grid;place-items:center;font-style:normal;font-size:13px;letter-spacing:-.04em}
+.back{font-size:14px;font-weight:700;text-decoration:none;padding:8px 14px;border-radius:10px;border:1px solid var(--line);background:var(--panel);transition:transform .16s ease-out,border-color .15s ease}
+.back:active{transform:scale(.97)}
+header.hero{padding:64px 0 36px}
+.eyebrow{font-size:13px;font-weight:800;letter-spacing:.12em;color:var(--blue);text-transform:uppercase}
+h1{margin:10px 0 0;font-size:clamp(34px,5vw,54px);line-height:1.15;letter-spacing:-.045em;font-weight:850}
+.lead{margin:18px 0 0;max-width:62ch;font-size:18px;color:var(--muted)}
+.facts{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.facts span{font-size:14px;font-weight:700;padding:6px 12px;border-radius:999px;background:var(--panel);border:1px solid var(--line)}
+.shot{margin-top:32px;border-radius:18px;overflow:hidden;border:1px solid var(--line);box-shadow:0 18px 50px rgba(30,50,80,.12);background:#0e1116}
+.shot img{display:block;width:100%;height:auto}
+.shot figcaption{font-size:13px;color:#9aa6b6;padding:10px 16px;background:#141922}
+section{padding:80px 0 8px}
+h2{margin:0;font-size:clamp(26px,3.2vw,34px);letter-spacing:-.035em;line-height:1.25}
+.sub{margin:8px 0 0;color:var(--muted);max-width:64ch}
+/* 타임라인 */
+.timeline{list-style:none;margin:28px 0 0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.timeline li{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px 20px 22px}
+.timeline .v{font-size:26px;font-weight:850;letter-spacing:-.04em;color:var(--blue)}
+.timeline .d{font-size:13px;font-weight:700;color:var(--muted)}
+.timeline b{display:block;margin-top:10px;font-size:16px;line-height:1.45}
+.timeline p{margin:6px 0 0;font-size:14.5px;color:var(--muted);line-height:1.65}
+.timeline li.last{background:#1f2e45;border-color:#1f2e45;color:#eef3f9}
+.timeline li.last .v{color:#8cc4ff}.timeline li.last .d,.timeline li.last p{color:#b9c6d8}
+/* 운영 방식 */
+.flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin-top:28px;background:var(--panel);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.flow div{padding:22px 22px 24px;border-left:1px solid var(--line)}
+.flow div:first-child{border-left:0}
+.flow em{font-style:normal;font-size:13px;font-weight:800;color:var(--blue)}
+.flow b{display:block;margin-top:6px;font-size:17px}
+.flow p{margin:6px 0 0;font-size:14.5px;color:var(--muted);line-height:1.65}
+.who{display:inline-block;margin-top:10px;font-size:12px;font-weight:800;padding:3px 8px;border-radius:6px;background:var(--blue2);color:var(--blue)}
+.who.ai{background:var(--panel2);color:var(--muted)}
+/* 사례 */
+.cases{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:28px}
+.case{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:24px 26px 26px}
+.case .tag{font-size:12.5px;font-weight:800;color:var(--muted)}
+.case h3{margin:6px 0 0;font-size:20px;letter-spacing:-.03em;line-height:1.4}
+.metric{display:flex;align-items:baseline;gap:10px;margin:16px 0 4px;font-variant-numeric:tabular-nums}
+.metric .from{font-size:24px;font-weight:800;color:#9aa7b8;text-decoration:line-through;text-decoration-thickness:2px}
+.metric .arr{color:var(--muted);font-weight:700}
+.metric .to{font-size:34px;font-weight:850;letter-spacing:-.04em;color:var(--good)}
+.metric small{font-size:14px;color:var(--muted);font-weight:600}
+.case dl{margin:14px 0 0;display:grid;gap:8px}
+.case dt{font-size:13px;font-weight:800;color:var(--blue)}
+.case dd{margin:0;font-size:15px;color:#3a4656;line-height:1.65}
+.case.highlight{border-color:#bcd3ef;background:linear-gradient(180deg,#f7fbff,#fff)}
+/* 수치 */
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:28px}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px 22px}
+.stat .n{font-size:34px;font-weight:850;letter-spacing:-.04em;font-variant-numeric:tabular-nums;line-height:1.1}
+.stat .l{margin-top:4px;font-size:15px;font-weight:700}
+.stat p{margin:6px 0 0;font-size:14px;color:var(--muted);line-height:1.6}
+/* 판정 */
+.verdict{margin-top:28px;background:var(--panel);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.vrow{display:grid;grid-template-columns:180px 96px minmax(0,1fr);gap:16px;align-items:center;padding:16px 24px;border-top:1px solid var(--line)}
+.vrow:first-child{border-top:0}
+.vrow b{font-size:16px}
+.badge{justify-self:start;font-size:13px;font-weight:800;padding:4px 10px;border-radius:999px}
+.badge.ok{background:var(--good2);color:var(--good)}
+.badge.part{background:var(--warn2);color:var(--warn)}
+.badge.no{background:var(--panel2);color:var(--muted);border:1px solid var(--line)}
+.vrow span:last-child{font-size:15px;color:#3a4656}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:28px}
+.box{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:24px 26px}
+.box h3{margin:0;font-size:18px}
+.box ul{margin:12px 0 0;padding-left:18px;color:#3a4656;font-size:15px}
+.box li{margin:6px 0}
+.note{margin:48px 0 0;padding:22px 26px;border-radius:16px;background:var(--blue2);color:#24456f;font-size:15px;line-height:1.75}
+footer{margin:56px 0 0;padding:28px 0 max(40px,env(safe-area-inset-bottom));border-top:1px solid var(--line);color:var(--muted);font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+@media (hover:hover) and (pointer:fine){.back:hover{border-color:var(--blue)}}
+@media (max-width:900px){.timeline,.flow{grid-template-columns:1fr 1fr}.flow div:nth-child(3){border-left:0}.flow div:nth-child(n+3){border-top:1px solid var(--line)}.stats{grid-template-columns:1fr 1fr}}
+@media (max-width:640px){header.hero{padding-top:40px}.timeline,.flow,.cases,.stats,.split{grid-template-columns:1fr}.flow div{border-left:0;border-top:1px solid var(--line)}.flow div:first-child{border-top:0}.vrow{grid-template-columns:1fr auto;gap:6px 12px}.vrow span:last-child{grid-column:1/-1}.lead{font-size:16.5px}}
+@media (prefers-reduced-motion:no-preference){.rise{animation:rise .5s var(--ease) both}@keyframes rise{from{opacity:0;transform:translateY(8px)}}}
+</style>
+</head>
+<body>
+<div class="top"><div class="wrap">
+  <a class="brand" href="../"><i>JH</i>이준희</a>
+  <a class="back" href="../#slide-5">← 홈페이지로</a>
+</div></div>
+
+<main>
+<header class="hero wrap rise">
+  <div class="eyebrow">Five Powers · Development QA Log</div>
+  <h1>혼자 만드는 게임을<br>QA로 관리한 기록</h1>
+  <p class="lead">동북아 대전략 게임 Five Powers를 만들면서, 검증은 AI 자동 플레이와 감사에 맡기고 기준을 정하고 판정하는 일을 직접 했습니다. 아래는 그 과정에서 받은 빌드별 QA 보고서 3건(총 142장)을 한 페이지로 정리한 것입니다.</p>
+  <div class="facts"><span>2026.05 ~ 09</span><span>Unity 6 · C#</span><span>커밋 367회</span><span>마지막 빌드 v0.102</span><span>5개국 플레이</span></div>
+  <figure class="shot"><img src="map.webp" alt="Five Powers 메인 지도 화면" width="1600" height="900"/><figcaption>v0.102 메인 지도 · 2026년 2월, 핵 최후통첩 수신 상황</figcaption></figure>
+</header>
+
+<section class="wrap">
+  <div class="eyebrow">01 · Timeline</div>
+  <h2>빌드가 바뀔 때마다 무엇을 확인했나</h2>
+  <p class="sub">8월 마지막 주에 세 번의 검증 회차가 있었고, 각 회차는 이전 회차가 남긴 문제를 고치는 데서 시작했습니다.</p>
+  <ol class="timeline">
+    <li><div class="v">v0.062</div><div class="d">2026.08.25</div><b>기능 안정, 베타 선언은 보류</b><p>5개국 장기 자동 플레이 692개월, 치명 결함 0건. 10개 관문 중 9개 통과. 남은 1개는 사람 대상 UX 검사.</p></li>
+    <li><div class="v">v0.063</div><div class="d">2026.08.25</div><b>지적된 세 가지를 고치고 재측정</b><p>사건 반복, 국고 인플레이션, 720p 작은 버튼을 수정. 처음으로 플레이어 승리가 3개국에서 성립.</p></li>
+    <li><div class="v">v0.067</div><div class="d">2026.08.27</div><b>게임 루프 개편 후 전면 재검증</b><p>1,500턴 자동 플레이, 자동 테스트 510건, 5개 해상도 UI 감사, 2시간 안정성 검사. 최종 빌드 0.071.</p></li>
+    <li class="last"><div class="v">v0.102</div><div class="d">2026.09.22</div><b>마지막 빌드</b><p>지인 테스트·소규모 CBT를 시작할 기반까지 도달. 이후 개선 사항을 정리하는 단계에서 멈춤.</p></li>
+  </ol>
+</section>
+
+<section class="wrap">
+  <div class="eyebrow">02 · How</div>
+  <h2>역할을 이렇게 나눴습니다</h2>
+  <p class="sub">반복 검증은 AI가 대신할 수 있지만, 무엇을 통과로 볼지와 다음에 무엇을 할지는 사람이 정해야 한다고 봤습니다.</p>
+  <div class="flow">
+    <div><em>1</em><b>기준 정하기</b><p>기획서를 1순위 기준 문서로 두고, 통과 조건과 측정 지표를 먼저 정함</p><span class="who">직접</span></div>
+    <div><em>2</em><b>자동 검증</b><p>5개국 장기 자동 플레이, 해상도별 화면 감사, 회귀 테스트, 저장·불러오기 왕복</p><span class="who ai">AI (Codex)</span></div>
+    <div><em>3</em><b>판정</b><p>통과 · 부분 · 미실시로 나누고, 숫자가 엇갈리면 어느 실행을 기준으로 볼지 정함</p><span class="who">직접</span></div>
+    <div><em>4</em><b>다음 회차</b><p>남은 문제를 우선순위로 정리해 다음 빌드 작업 범위로 넘김</p><span class="who">직접</span></div>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="eyebrow">03 · Cases</div>
+  <h2>문제를 찾고, 고치고, 숫자로 확인한 사례</h2>
+  <div class="cases">
+    <article class="case">
+      <div class="tag">UI · v0.062 → v0.063</div>
+      <h3>720p에서 누르기 어려운 버튼</h3>
+      <div class="metric"><span class="from">41건</span><span class="arr">→</span><span class="to">0건</span><small>48px 미만 버튼</small></div>
+      <dl><dt>원인</dt><dd>화면이 작아지면 캔버스 전체가 줄면서 버튼 실제 크기가 최소 기준 아래로 내려감</dd>
+      <dt>조치와 확인</dt><dd>조밀한 화면을 2열 카드 구조로 바꾸고, 720p부터 울트라와이드까지 4개 해상도 21개 화면을 다시 측정</dd></dl>
+    </article>
+    <article class="case">
+      <div class="tag">밸런스 · v0.062 → v0.063</div>
+      <h3>후반에 돈이 끝없이 쌓이는 문제</h3>
+      <div class="metric"><span class="from">44,186</span><span class="arr">→</span><span class="to">8,250</span><small>대한민국 종료 국고</small></div>
+      <dl><dt>판단</dt><dd>실제로 해 보면 초중반엔 늘 돈이 부족했음. 수입을 일괄로 깎으면 그 빈곤만 심해지므로 그렇게 하지 않음</dd>
+      <dt>조치</dt><dd>돈이 많을수록 덜 받고, 조직이 클수록 더 내는 구조를 넣되 국고 6,000 이하 국가는 건드리지 않는 보호선을 둠</dd></dl>
+    </article>
+    <article class="case">
+      <div class="tag">콘텐츠 · v0.062 → v0.063</div>
+      <h3>같은 사건이 순서대로 반복되는 문제</h3>
+      <div class="metric"><span class="to">53종</span><small>대한민국 58회 노출 중 서로 다른 사건 수</small></div>
+      <dl><dt>조치</dt><dd>고정 순환을 가중 무작위 추첨으로 바꾸고, 같은 사건은 24턴 동안 다시 나오지 않게 제한</dd>
+      <dt>놓치기 쉬운 부분</dt><dd>반복 제한 기록을 저장 파일에 포함해, 불러오기를 해도 제한이 초기화되지 않게 함</dd></dl>
+    </article>
+    <article class="case highlight">
+      <div class="tag">검사 도구 · v0.067</div>
+      <h3>콘텐츠가 아니라 검사 도구가 만든 편중</h3>
+      <div class="metric"><span class="from">83.3%</span><span class="arr">→</span><span class="to">42.9%</span><small>한 선택지로 몰린 비율</small></div>
+      <dl><dt>발견</dt><dd>자동 플레이가 매번 같은 선택지를 고르는 계산식 오류 때문에, 게임에 문제가 있는 것처럼 보였음</dd>
+      <dt>교훈</dt><dd>지표가 나쁘게 나오면 게임보다 측정 방법부터 의심함. 같은 이유로 "테스트 0개 실행, 0개 실패"도 통과로 읽지 않음</dd></dl>
+    </article>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="eyebrow">04 · Final Check · v0.067</div>
+  <h2>최종 검증 회차의 숫자</h2>
+  <p class="sub">5개국 × 전략 2가지 × 150턴, 총 10개의 새 게임을 처음부터 끝까지 자동으로 플레이했습니다.</p>
+  <div class="stats">
+    <div class="stat"><div class="n">1,500</div><div class="l">턴 자동 플레이</div><p>10개 시나리오 전부 150턴 완주, 실행 오류 0건</p></div>
+    <div class="stat"><div class="n">510 / 510</div><div class="l">자동 테스트 통과</div><p>실패 0, 건너뜀 0</p></div>
+    <div class="stat"><div class="n">30 / 30</div><div class="l">저장·불러오기</div><p>24·60·120턴 지점에서 국가별 3회씩, 상태 손실 없음</p></div>
+    <div class="stat"><div class="n">36</div><div class="l">화면 캡처 감사</div><p>720p ~ 3440×1440, 5개 해상도에서 자동 경고 0</p></div>
+    <div class="stat"><div class="n">2시간</div><div class="l">안정성 검사</div><p>10분 간격 13회 측정, 메모리 증가 +0.01%</p></div>
+    <div class="stat"><div class="n">385</div><div class="l">사건 노드</div><p>44개 사건 묶음, 선택지 639개, 문장 1,433개를 데이터로 관리</p></div>
+  </div>
+  <figure class="shot"><img src="nsc.webp" alt="Five Powers 국가안전보장회의 화면" width="1600" height="900" loading="lazy"/><figcaption>국가안전보장회의 · 북핵 강압 상황의 대응 방침 5가지. 검증 대상이던 6개 핵심 흐름 중 하나</figcaption></figure>
+</section>
+
+<section class="wrap">
+  <div class="eyebrow">05 · Verdict</div>
+  <h2>무엇이 끝났고, 무엇이 남았나</h2>
+  <div class="verdict">
+    <div class="vrow"><b>기능 안정성</b><span class="badge ok">통과</span><span>5개국 장기 플레이에서 오류·강제 복구 0회</span></div>
+    <div class="vrow"><b>화면 대응</b><span class="badge ok">통과</span><span>720p부터 울트라와이드까지 작은 버튼·화면 밖 요소 0건</span></div>
+    <div class="vrow"><b>저장·불러오기</b><span class="badge ok">통과</span><span>예전 저장 파일 4개 버전도 현재 버전으로 이관</span></div>
+    <div class="vrow"><b>밸런스</b><span class="badge part">부분</span><span>국고는 억제됐지만 중국 후반 국고, 군사 승리 진행률 고정은 남음</span></div>
+    <div class="vrow"><b>사람 대상 UX</b><span class="badge no">미실시</span><span>자동화로는 확인할 수 없는 영역. 다음 단계로 넘김</span></div>
+  </div>
+  <div class="split">
+    <div class="box"><h3>자동화로 확인한 것</h3><ul><li>모든 기능 경로가 끝까지 이어지는가</li><li>오래 플레이해도 멈추거나 쌓이지 않는가</li><li>해상도가 바뀌어도 화면이 깨지지 않는가</li><li>저장하고 불러와도 상태가 그대로인가</li></ul></div>
+    <div class="box"><h3>사람이 확인해야 할 것</h3><ul><li>설명 없이 10분 안에 첫 행동을 끝내는가</li><li>선택마다 무엇을 얻고 잃는지 말할 수 있는가</li><li>선거 전후로 위험 요인을 5초 안에 찾는가</li><li>60~100턴 동안 사건이 외워질 만큼 반복되는가</li></ul></div>
+  </div>
+  <p class="note">이 보고서들은 Codex가 자동 플레이와 감사를 실행해 작성한 내부 문서입니다. 이 페이지는 그중 판정과 결정에 해당하는 내용을 골라 정리했고, 성능 측정치나 내부 파일 경로처럼 개발용 세부는 뺐습니다. 게임은 v0.102에서 개선 사항을 정리하는 단계에 멈춰 있습니다.</p>
+</section>
+</main>
+
+<footer><div class="wrap"><span>© 2026 이준희 · Five Powers 개발 QA 기록</span><a href="../">홈페이지로 돌아가기</a></div></footer>
+</body>
+</html>
