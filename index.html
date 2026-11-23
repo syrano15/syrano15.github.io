@@ -430,7 +430,7 @@ body{word-break:keep-all;overflow-wrap:break-word}
 .pf-thumb{display:block;width:100%;flex:1 1 auto;min-height:0;object-fit:cover;object-position:top center;border-radius:14px;border:1px solid var(--line);transition:transform .3s cubic-bezier(.23,1,.32,1)}
 .big-link:has(.pf-thumb){overflow:hidden}
 @media (hover:hover) and (pointer:fine){.big-link:hover .pf-thumb{transform:scale(1.015)}}
-@media (min-width:1101px) and (max-height:820px){.side-stack{gap:14px}.award-card{padding:18px 24px}.award-card b{font-size:18px;margin-top:8px}.award-card p{font-size:14px;margin-top:4px;line-height:1.55}html body .big-link:has(.pf-thumb){padding:18px 24px;gap:10px}html body .big-link:has(.pf-thumb) b{font-size:19px;margin-top:8px}html body .big-link:has(.pf-thumb) p{font-size:14px;margin-top:4px}.pf-thumb{min-height:130px}html body .big-link:has(.pf-thumb) .go{padding:8px 14px}}
+@media (min-width:1101px) and (max-height:940px){.side-stack{gap:14px}.award-card{padding:18px 24px}.award-card b{font-size:18px;margin-top:8px}.award-card p{font-size:14px;margin-top:4px;line-height:1.55}html body .big-link:has(.pf-thumb){padding:18px 24px;gap:10px}html body .big-link:has(.pf-thumb) b{font-size:19px;margin-top:8px}html body .big-link:has(.pf-thumb) p{font-size:14px;margin-top:4px}.pf-thumb{min-height:130px}html body .big-link:has(.pf-thumb) .go{padding:8px 14px}}
 .contact-list{list-style:none;margin:0;padding:0;display:grid}
 .contact-list li{display:grid;grid-template-columns:56px minmax(0,1fr) auto;align-items:center;gap:14px;padding:16px 0;border-top:1px solid var(--line)}
 .contact-list li:first-child{border-top:0;padding-top:4px}
@@ -444,6 +444,10 @@ body{word-break:keep-all;overflow-wrap:break-word}
 .big-link.compact p{font-size:14px;margin-top:2px}
 .big-link.compact .go{padding:10px 14px}
 @media (max-width:760px){.contact-list li{grid-template-columns:1fr auto;gap:4px 12px}.contact-list .k{grid-column:1/-1}}
+.tools-label{margin-top:18px}
+.tool-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.tool-tags span{font-size:13px;font-weight:700;padding:5px 10px;border-radius:8px;border:1px solid var(--line);background:var(--panel2);color:var(--text)}
+@media (min-width:1101px) and (max-height:940px){.tools-label{margin-top:10px}.tool-tags{gap:4px;margin-top:6px}.tool-tags span{font-size:12px;padding:3px 8px}}
 /* 하단 겹침·잘림 보정 */
 @media (min-width:1101px){.navigation-hint{display:none!important}html body .slide{padding-bottom:84px}}
 @media (min-width:1101px) and (max-height:940px){html body .app-shot>.image-trigger{height:220px}html body .tall-shot>.image-trigger{height:210px}html body .tall-shot .mini-row .image-trigger{height:96px}html body .project-card .project-image-gallery{height:270px;min-height:270px}}
@@ -542,6 +546,8 @@ body{word-break:keep-all;overflow-wrap:break-word}
               <div class="eyebrow"><span class="dot"></span> 수상</div>
               <b>대한민국 게임대상 우수상 2회</b>
               <p>참여 프로젝트 기준<br>RF 온라인 넥스트 (2025) · 더뮤지션 (2017)</p>
+              <div class="eyebrow tools-label"><span class="dot"></span> 주요 도구</div>
+              <div class="tool-tags"><span>Asana</span><span>Jira</span><span>Mantis</span><span>SVN</span><span>Slack</span><span>Google Workspace</span><span>Unreal 툴 관리</span><span>Unity</span><span>Claude</span><span>Codex</span></div>
             </article>
             <a class="panel big-link" href="https://claude.ai/artifact/6ugEJWJxV1pcKsLfQD5vSG" target="_blank" rel="noopener">
               <div><div class="eyebrow"><span class="dot"></span> 포트폴리오</div><b>상세 포트폴리오</b><p>회사별 담당 업무와 프로젝트 경험을 자세히 정리한 문서입니다.</p></div>
@@ -642,6 +648,7 @@ body{word-break:keep-all;overflow-wrap:break-word}
             <div class="contact-actions">
               <a class="primary" href="mailto:syrano15@hanmail.net">메일 보내기</a>
               <a href="tel:01089831754">전화 걸기</a>
+              <a href="resume.pdf" download="이준희_이력서.pdf">이력서 PDF 받기</a>
             </div>
           </article>
           <div class="contact-side">
