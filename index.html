@@ -630,6 +630,7 @@ html.intro #slide-1 .stat:nth-child(4){animation-delay:410ms}
 .theme-toggle{transition:background .2s ease,border-color .2s ease,color .2s ease,transform .16s ease-out}
 .ctrl:not(:disabled):active,.app-launch:not(:disabled):active,.hero-quick a:active,.util .chip:is(a,button):active,.theme-toggle:active{transform:scale(.97)}
 @media (prefers-reduced-motion:reduce){.ctrl:active,.app-launch:active,.hero-quick a:active,.util .chip:is(a,button):active,.theme-toggle:active{transform:none}}
+@media (max-width:959px){.topbar .resume-chip{display:none}}
 </style>
 </head>
 <body>
@@ -640,7 +641,7 @@ html.intro #slide-1 .stat:nth-child(4){animation-delay:410ms}
 <svg class="theme-icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 15.3A8.4 8.4 0 0 1 8.7 4 8.5 8.5 0 1 0 20 15.3Z"/></svg>
 <svg class="theme-icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42"/></svg>
 <span class="theme-label"><span class="theme-label-dark">다크 모드</span><span class="theme-label-light">라이트 모드</span></span>
-</button><button class="chip owner-btn" id="ownerTrigger" type="button" aria-haspopup="dialog">🔒 내 작업공간</button><div class="chip help-chip">휠 · 드래그 · 스와이프</div><a class="chip ghost" href="https://www.linkedin.com/in/junhee-lee-qapm/" target="_blank" rel="noopener">LinkedIn</a></div>
+</button><button class="chip owner-btn" id="ownerTrigger" type="button" aria-haspopup="dialog">🔒 내 작업공간</button><div class="chip help-chip">휠 · 드래그 · 스와이프</div><a class="chip ghost" href="https://www.linkedin.com/in/junhee-lee-qapm/" target="_blank" rel="noopener">LinkedIn</a><a class="chip ghost resume-chip" href="resume.pdf" download="이준희_이력서.pdf">이력서 PDF</a></div>
   </header>
 
   <nav class="side-nav" aria-label="섹션 이동">
