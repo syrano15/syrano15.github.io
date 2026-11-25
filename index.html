@@ -1236,6 +1236,14 @@ btn.addEventListener('click', () => applyTheme(root.dataset.theme === 'dark' ? '
 b.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(b.dataset.copy);b.textContent='복사했어요';}catch(e){b.textContent='복사 실패';}clearTimeout(h);h=setTimeout(()=>{b.textContent=t},1600);});});})();
 </script>
 <script>
+/* 제목 영역 높이 통일: 2~8장 제목 영역을 가장 높은 장에 맞춤 (PC 폭에서만) */
+(()=>{
+const ks=[...document.querySelectorAll('.slide:not(#slide-1) .kicker')];
+function eq(){ks.forEach(k=>k.style.minHeight='');if(innerWidth<=1100)return;const h=Math.max(...ks.map(k=>k.getBoundingClientRect().height/((k.closest('.inner').style.zoom)||1)));ks.forEach(k=>k.style.minHeight=Math.ceil(h)+'px');}
+eq();addEventListener('resize',eq);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(eq);
+})();
+</script>
+<script>
 /* fit each slide above the bottom page bar: shrink big images first, then scale the slide slightly */
 (()=>{
 const SEL='.app-shot>.image-trigger,.tall-shot>.image-trigger,.project-image-gallery>.image-primary,.work-mini .image-trigger';
