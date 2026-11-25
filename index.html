@@ -608,6 +608,29 @@ html body .tall-shot .app-desc{padding-left:0!important;padding-right:0!importan
   .app-card>.app-links,.tall-shot>.app-links{align-self:end}
 }
 </style>
+<!-- motion-polish: 첫 화면 등장 + 누름 반응 -->
+<script>
+try{if((!location.hash||location.hash==='#slide-1')&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('intro');}catch(e){}
+</script>
+<style id="motion-polish">
+@keyframes introUp{from{opacity:0;transform:translateY(14px)}}
+html.intro #slide-1 .kicker-left,
+html.intro #slide-1 .hero-card,
+html.intro #slide-1 .feature-stack,
+html.intro #slide-1 .hero-right>.panel:last-child{animation:introUp 600ms cubic-bezier(.23,1,.32,1) both}
+html.intro #slide-1 .hero-card{animation-delay:90ms}
+html.intro #slide-1 .feature-stack{animation-delay:170ms}
+html.intro #slide-1 .hero-right>.panel:last-child{animation-delay:240ms}
+html.intro #slide-1 .stat{animation:introUp 480ms cubic-bezier(.23,1,.32,1) both}
+html.intro #slide-1 .stat:nth-child(1){animation-delay:260ms}
+html.intro #slide-1 .stat:nth-child(2){animation-delay:310ms}
+html.intro #slide-1 .stat:nth-child(3){animation-delay:360ms}
+html.intro #slide-1 .stat:nth-child(4){animation-delay:410ms}
+.ctrl,.app-launch,.hero-quick a,.util .chip:is(a,button){transition:transform .16s ease-out}
+.theme-toggle{transition:background .2s ease,border-color .2s ease,color .2s ease,transform .16s ease-out}
+.ctrl:not(:disabled):active,.app-launch:not(:disabled):active,.hero-quick a:active,.util .chip:is(a,button):active,.theme-toggle:active{transform:scale(.97)}
+@media (prefers-reduced-motion:reduce){.ctrl:active,.app-launch:active,.hero-quick a:active,.util .chip:is(a,button):active,.theme-toggle:active{transform:none}}
+</style>
 </head>
 <body>
 <div class="page">
